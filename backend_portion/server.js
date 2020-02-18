@@ -1,18 +1,17 @@
 const express = require("express");
 const app = express();
-const baodyparser = require("body-parser");
+const bodyparser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const projectlistRoutes = express.Router();
 const PORT = 5000;
 
-
 //bring in model here
-let projectlist = require("./projectlist.model");
+let ProjectList = require("./projectlist.model");
 
 //adding middleware
 app.use(cors());
-app.use(baodyparser.json());
+app.use(bodyparser.json());
 
 //coonect to mongoDB database
 mongoose.connect("mongodb://127.0.0.1:27017/projectlist", {
@@ -25,56 +24,56 @@ connection.once("open", function() {
 
 //first endpoints
 projectlistRoutes.route("/").get(function(req, res) {
-  projectlist.find(function(err, projectlist) {
+  ProjectList.find(function(err, listItem) {
     if (err) {
       console.log(err);
     } else {
-      res.json(projectlist);
+      res.json(listItem);
     }
   });
 });
 
 projectlistRoutes.route("/:id").get(function(req, res) {
   let id = req.params.id;
-  projectlist.findById(id, function(err, projectlist) {
-    res.json(projectlist);
+  ProjectList.findById(id, function(err, listItem) {
+    res.json(listItem);
   });
 });
 
 //post request
 projectlistRoutes.route("/add").post(function(req, res) {
-  let projectlist = new projectlist(req.body);
-  projectlist
+  let plist = new ProjectList(req.body);
+  plist
     .save()
-    .then(projectlist => {
-      res.status(200).json({ projectlist: "projectlist added successfully" });
+    .then(list => {
+      res.status(200).json({ list: "projectlist added successfully" });
     })
     .catch(err => {
+      console.log("error", err);
       res.status(400).send("adding new project failed");
     });
 });
 
 // update route
 projectlistRoutes.route("/update/:id").post(function(req, res) {
-  projectlist.findById(req.params.id, function(err, projectlist) {
-    if (!projectlist) res.status(404).send("data is not found");
-    else 
-    projectlist.projectlist_description = req.body.projectlist_description;
-    projectlist.projectlist_CRMNumber = req.body.projectlist_CRMNumber;
-    projectlist.projectlist_sponsor= req.body.projectlist_sponsor;
-    projectlist.projectlist_Level= req.body.projectlist_Level;
-    projectlist.projectlist_DueDate= req.body.projectlist_DueDate;
-    projectlist.projectlist_completed= req.body.projectlist_completed;
+  ProjectList.findById(req.params.id, function(err, listItem) {
+    if (!listItem) res.status(404).send("data is not found");
+    else {
+      listItem.projectlist_description = req.body.projectlist_description;
+      listItem.projectlist_CRMNumber = req.body.projectlist_CRMNumber;
+      listItem.projectlist_sponsor = req.body.projectlist_sponsor;
+      listItem.projectlist_Level = req.body.projectlist_Level;
+      listItem.projectlist_DueDate = req.body.projectlist_DueDate;
+      listItem.projectlist_completed = req.body.projectlist_completed;
+    }
 
-    projectlist.save().then(projectlist => {
-
-      res.json('projetlist updated');
-    })
-    .catch(err => {
-      res.status(400).send("update noyt possible");
-    });
-
-
+    ProjectList.save()
+      .then(itemList => {
+        res.json("projectlist updated");
+      })
+      .catch(err => {
+        res.status(400).send("update noyt possible");
+      });
   });
 });
 
@@ -85,4 +84,3 @@ app.use("/projectlist", projectlistRoutes);
 app.listen(PORT, function() {
   console.log("server is running" + PORT);
 });
-

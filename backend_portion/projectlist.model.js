@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+//const schema = mongoose.Schema;
 
-let projectlist = new Schema({
+let ProjectList = new mongoose.Schema({
   projectlist_description: {
     type: String
   },
@@ -15,11 +15,11 @@ let projectlist = new Schema({
     type: Number
   },
   projectlist_DueDate: {
-    type: Number
+    type: Date
   },
   projectlist_completed: {
     type: Boolean
   }
 });
 
-module.exports = mongoose.model("projectlist", projectlist);
+module.exports = mongoose.model("ProjectList", ProjectList);
