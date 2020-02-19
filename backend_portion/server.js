@@ -22,7 +22,7 @@ connection.once("open", function() {
   console.log("MongoDB connected");
 });
 
-//first endpoints
+//first endpoints , get request
 projectlistRoutes.route("/").get(function(req, res) {
   ProjectList.find(function(err, listItem) {
     if (err) {
@@ -40,7 +40,7 @@ projectlistRoutes.route("/:id").get(function(req, res) {
   });
 });
 
-//post request
+//add request
 projectlistRoutes.route("/add").post(function(req, res) {
   let plist = new ProjectList(req.body);
   plist
@@ -58,21 +58,21 @@ projectlistRoutes.route("/add").post(function(req, res) {
 projectlistRoutes.route("/update/:id").post(function(req, res) {
   ProjectList.findById(req.params.id, function(err, listItem) {
     if (!listItem) res.status(404).send("data is not found");
-    else {
+    else 
       listItem.projectlist_description = req.body.projectlist_description;
       listItem.projectlist_CRMNumber = req.body.projectlist_CRMNumber;
       listItem.projectlist_sponsor = req.body.projectlist_sponsor;
       listItem.projectlist_Level = req.body.projectlist_Level;
       listItem.projectlist_DueDate = req.body.projectlist_DueDate;
       listItem.projectlist_completed = req.body.projectlist_completed;
-    }
+    
 
-    ProjectList.save()
-      .then(itemList => {
+    listItem.save()
+      .then(listItem => {
         res.json("projectlist updated");
       })
       .catch(err => {
-        res.status(400).send("update noyt possible");
+        res.status(400).send("update not possible");
       });
   });
 });
