@@ -2,55 +2,57 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const Todo = props => (
+const projectList = props => (
     <tr>
-        <td>{props.todo.todo_description}</td>
-        <td>{props.todo.todo_responsible}</td>
-        <td>{props.todo.todo_priority}</td>
+        <td>{props.projectlist.projectlist_description}</td>
+        <td>{props.projectlist.projectlist_responsible}</td>
+        <td>{props.projectlist.projectlist_priority}</td>
         <td>
-            <Link to={"/edit/"+props.todo._id}>Edit</Link>
+            <Link to={"/edit/"+props.projectlist._id}>Edit</Link>
         </td>
     </tr>
 )
 
-export default class TodosList extends Component {
+export default class ProjectList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {todos: []};
+        this.state = {projectlists: []};
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/todos/')
+        axios.get('http://localhost:5000/projectlist/')
             .then(response => {
-                this.setState({todos: response.data});
+                this.setState({projectlists: response.data});
             })
             .catch(function (error) {
                 console.log(error);
             })
     }
 
-    todoList() {
-        return this.state.todos.map(function(currentTodo, i) {
-            return <Todo todo={currentTodo} key={i} />;
+    projectList() {
+        return this.state.ProjectList.map(function(currentprojectlist, i) {
+            return <projectList projectlist={currentprojectlist} key={i} />;
         });
     }
 
     render() {
         return (
             <div>
-                <h3>Todos List</h3>
+                <h3>Project List</h3>
                 <table className="table table-striped" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>
                             <th>Description</th>
-                            <th>Responsible</th>
-                            <th>Priority</th>
-                            <th>Actions</th>
+                            <th>CRM number</th>
+                            <th>Sponsor</th>
+                            <th>Level</th>
+                            <th>Due Date</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        { this.todoList() }
+                        { this.projectList() }
                     </tbody>
                 </table>
             </div>
