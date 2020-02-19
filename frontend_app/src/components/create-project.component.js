@@ -78,7 +78,7 @@ export default class CreateProject extends Component {
     console.log(`Project Level: ${this.state.projectlist_Level}`);
 
 
-    const newprojectlist = {
+    const newProjectList = {
       projectlist_description : this.state.projectlist_description,
       projectlist_CRMNumber: this.state.projectlist_CRMNumber,
       projectlist_sponsor: this.state.projectlist_sponsor,
@@ -87,7 +87,9 @@ export default class CreateProject extends Component {
       projectlist_completed: this.state.projectlist_completed
     }
 
-    axios.post('http://localhost:5000/projectlist/add' , newprojectlist)
+    axios.post('http://localhost:5000/projectlist/add' , newProjectList)
+    .then(res => console.log(res.data));
+    
 
     this.setState({
       projectlist_sponsor: "",
