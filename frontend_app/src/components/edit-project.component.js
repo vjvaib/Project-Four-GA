@@ -9,6 +9,10 @@ export default class EditProject extends Component {
       this
     );
 
+    this.onChangeprojectlist_sponsor = this.onChangeprojectlist_sponsor.bind(
+      this
+    );
+
     this.onChangeprojectlist_completed = this.onChangeprojectlist_completed.bind(
       this
     );
@@ -59,9 +63,9 @@ export default class EditProject extends Component {
     });
   }
 
-  onChangeprojectlist_DueDate(e) {
+  onChangeprojectlist_sponsor(e) {
     this.setState({
-      projectlist_DueDate: e.target.value
+      projectlist_sponsor: e.target.value
     });
   }
 
@@ -76,6 +80,7 @@ export default class EditProject extends Component {
     const obj = {
       projectlist_description: this.state.projectlist_description,
       projectlist_CRMNumber: this.state.projectlist_CRMNumber,
+      projectlist_sponsor: this.state.projectlist_sponsor,
       projectlist_completed: this.state.projectlist_completed
     };
 
@@ -114,29 +119,43 @@ export default class EditProject extends Component {
               value={this.state.projectlist_CRMNumber}
               onChange={this.onChangeprojectlist_CRMNumber}
             />
-          </div>
-          <div className="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="completedCheckbox"
-              name="completedCheckbox"
-              onChange={this.onChangeprojectlist_completed}
-              checked={this.state.projectlist_completed}
-              value={this.state.projectlist_completed}
-            />
 
-            <label className="form-check-label" htmlFor="completedCheckBox">
-              Completed
-            </label>
-          </div>
-          <br />
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Update projectlist"
-              className="btn btn-primary"
-            />
+            <div className="form-group">
+              <label> sponsor: </label>
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.projectlist_sponsor}
+                onChange={this.onChangeprojectlist_sponsor}
+              />
+            </div>
+
+            
+
+
+            <div className="form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="completedCheckbox"
+                name="completedCheckbox"
+                onChange={this.onChangeprojectlist_completed}
+                checked={this.state.projectlist_completed}
+                value={this.state.projectlist_completed}
+              />
+
+              <label className="form-check-label" htmlFor="completedCheckBox">
+                Completed
+              </label>
+            </div>
+            <br />
+            <div className="form-group">
+              <input
+                type="submit"
+                value="Update projectlist"
+                className="btn btn-primary"
+              />
+            </div>
           </div>
         </form>
       </div>
