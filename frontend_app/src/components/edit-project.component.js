@@ -13,6 +13,12 @@ export default class EditProject extends Component {
       this
     );
 
+    this.onChangeprojectlist_Level = this.onChangeprojectlist_Level.bind(this);
+
+    this.onChangeprojectlist_DueDate = this.onChangeprojectlist_DueDate.bind(
+      this
+    );
+
     this.onChangeprojectlist_completed = this.onChangeprojectlist_completed.bind(
       this
     );
@@ -35,7 +41,10 @@ export default class EditProject extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/projectlist/" + this.props.match.params.id)
+      .get(
+        "https://projectlist-backend.herokuapp.com/projectlist/" +
+          this.props.match.params.id
+      )
       .then(response => {
         this.setState({
           projectlist_description: response.data.projectlist_description,
@@ -69,6 +78,18 @@ export default class EditProject extends Component {
     });
   }
 
+  onChangeprojectlist_Level(e) {
+    this.setState({
+      projectlist_Level: e.target.value
+    });
+  }
+
+  onChangeprojectlist_DueDate(e) {
+    this.setState({
+      projectlist_DueDate: e.target.value
+    });
+  }
+
   onChangeprojectlist_completed(e) {
     this.setState({
       projectlist_completed: !this.state.projectlist_completed
@@ -81,12 +102,14 @@ export default class EditProject extends Component {
       projectlist_description: this.state.projectlist_description,
       projectlist_CRMNumber: this.state.projectlist_CRMNumber,
       projectlist_sponsor: this.state.projectlist_sponsor,
+      projectlist_Level: this.state.projectlist_Level,
+      projectlist_DueDate: this.state.projectlist_DueDate,
       projectlist_completed: this.state.projectlist_completed
     };
 
     axios
       .post(
-        "http://localhost:5000/projectlist/update/" +
+        "https://projectlist-backend.herokuapp.com/projectlist/update/" +
           this.props.match.params.id,
         obj
       )
@@ -130,8 +153,25 @@ export default class EditProject extends Component {
               />
             </div>
 
-            
+            <div className="form-group">
+              <label> Level: </label>
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.projectlist_Level}
+                onChange={this.onChangeprojectlist_Level}
+              />
+            </div>
 
+            <div className="form-group">
+              <label> Due Date: </label>
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.projectlist_DueDate}
+                onChange={this.onChangeprojectlist_DueDate}
+              />
+            </div>
 
             <div className="form-check">
               <input

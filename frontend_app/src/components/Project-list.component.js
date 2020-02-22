@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+//import 'moment-timezone';
 
 export default class ProjectList extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class ProjectList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/projectlist/")
+      .get("https://projectlist-backend.herokuapp.com/projectlist/")
       .then(response => {
         console.log("response data", response.data);
         this.setState({ projectlists: response.data });
@@ -20,16 +21,16 @@ export default class ProjectList extends Component {
       });
   }
 
-  componentDidUpdate() {
-    axios
-      .get("http://localhost:5000/projectlist/")
-      .then(response => {
-        this.setState({ projectlists: response.data });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
+  // componentDidUpdate() {
+  //   axios
+  //     .get("https://projectlist-backend.herokuapp.com/projectlist/")
+  //     .then(response => {
+  //       this.setState({ projectlists: response.data });
+  //     })
+  //     .catch(function(error) {
+  //       console.log(error);
+  //     });
+  // }
 
   render() {
     return (
@@ -84,7 +85,7 @@ export default class ProjectList extends Component {
                         : ""
                     }
                   >
-                    {currentprojectlist.projectlist_level}
+                    {currentprojectlist.projectlist_Level}
                   </td>
                   <td
                     className={

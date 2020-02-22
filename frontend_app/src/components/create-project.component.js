@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 export default class CreateProject extends Component {
   constructor(props) {
@@ -17,10 +17,11 @@ export default class CreateProject extends Component {
     this.onChangeprojectlist_sponsor = this.onChangeprojectlist_sponsor.bind(
       this
     );
+
+    this.onChangeprojectlist_Level = this.onChangeprojectlist_Level.bind(this);
     this.onChangeprojectlist_CRMNumber = this.onChangeprojectlist_CRMNumber.bind(
       this
     );
-
 
     this.onSubmit = this.onSubmit.bind(this);
 
@@ -52,7 +53,7 @@ export default class CreateProject extends Component {
     });
   }
 
-     onChangeprojectlist_sponsor(e) {
+  onChangeprojectlist_sponsor(e) {
     this.setState({
       projectlist_sponsor: e.target.value
     });
@@ -62,9 +63,12 @@ export default class CreateProject extends Component {
       projectlist_CRMNumber: e.target.value
     });
   }
- 
 
-  
+  onChangeprojectlist_Level(e) {
+    this.setState({
+      projectlist_Level: e.target.value
+    });
+  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -77,19 +81,21 @@ export default class CreateProject extends Component {
     console.log(`Project Sponsor: ${this.state.projectlist_sponsor}`);
     console.log(`Project Level: ${this.state.projectlist_Level}`);
 
-
     const newProjectList = {
-      projectlist_description : this.state.projectlist_description,
+      projectlist_description: this.state.projectlist_description,
       projectlist_CRMNumber: this.state.projectlist_CRMNumber,
       projectlist_sponsor: this.state.projectlist_sponsor,
       projectlist_Level: this.state.projectlist_Level,
       projectlist_DueDate: this.state.projectlist_DueDate,
       projectlist_completed: this.state.projectlist_completed
-    }
+    };
 
-    axios.post('http://localhost:5000/projectlist/add' , newProjectList)
-    .then(res => console.log(res.data));
-    
+    axios
+      .post(
+        "https://projectlist-backend.herokuapp.com/projectlist/add",
+        newProjectList
+      )
+      .then(res => console.log(res.data));
 
     this.setState({
       projectlist_sponsor: "",
@@ -140,8 +146,8 @@ export default class CreateProject extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  value={this.state.projectlist_level}
-                  onChange={this.onChangeprojectlist_level}
+                  value={this.state.projectlist_Level}
+                  onChange={this.onChangeprojectlist_Level}
                 />
               </div>
 
