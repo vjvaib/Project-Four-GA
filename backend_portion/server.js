@@ -4,7 +4,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const projectlistRoutes = express.Router();
-const PORT = 5000;
+const PORT = process.env.PORT ||5000;
 
 //bring in model here
 let ProjectList = require("./projectlist.model");
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyparser.json());
 
 //coonect to mongoDB database
-mongoose.connect("mongodb://127.0.0.1:27017/projectlist", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true
 });
 const connection = mongoose.connection;
