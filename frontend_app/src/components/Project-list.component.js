@@ -2,18 +2,21 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const projectList = props => (
+const projectlist = props => (
     <tr>
-        <td>{props.projectlist.projectlist_description}</td>
-        <td>{props.projectlist.projectlist_responsible}</td>
-        <td>{props.projectlist.projectlist_priority}</td>
+        <td  className={props.projectlist.projectlist_completed ? 'completed' : ""}> {props.projectlist.projectlist_description}</td>
+        <td> className={props.projectlist.projectlist_completed ? 'completed' : ""}> {props.projectlist.projectlist_CRMNumber}</td>
+        <td> className={props.projectlist.projectlist_completed ? 'completed' : ""}> {props.projectlist.projectlist_sponsor}</td>
+        <td> className={props.projectlist.projectlist_completed ? 'completed' : ""}> {props.projectlist.projectlist_level}</td>
+        <td> className={props.projectlist.projectlist_completed ? 'completed' : ""}> {props.projectlist.projectlist_DueDate}</td>
+
         <td>
             <Link to={"/edit/"+props.projectlist._id}>Edit</Link>
         </td>
     </tr>
 )
 
-export default class ProjectList extends Component {
+export default class projectList extends Component {
 
     constructor(props) {
         super(props);
@@ -30,9 +33,20 @@ export default class ProjectList extends Component {
             })
     }
 
+    componentDidUpdate() {
+      axios.get('http://localhost:5000/projectlist/')
+            .then(response => {
+                this.setState({projectlists: response.data});
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
+
     projectList() {
-        return this.state.ProjectList.map(function(currentprojectlist, i) {
-            return <projectList projectlist={currentprojectlist} key={i} />;
+        return this.state.projectlists.map(function(currentprojectlist, i) {
+            return <projectlist projectlist={currentprojectlist} key={i} />;
         });
     }
 
@@ -48,6 +62,7 @@ export default class ProjectList extends Component {
                             <th>Sponsor</th>
                             <th>Level</th>
                             <th>Due Date</th>
+                            <th>Actions</th>
 
                         </tr>
                     </thead>
